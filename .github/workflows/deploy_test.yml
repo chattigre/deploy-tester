@@ -1,0 +1,28 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Deploy to test folder
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
+  push:
+    branches: [ "main" ]
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  web-deploy:
+    name: Deploy to web server
+    runs-on: ubuntu-latest
+    steps:
+    - name: Get latest code
+      uses: actions/checkout@v3
+      with:
+        ref: main
+        fetch-depth: 1
+    
+    - name: 📂 Sync files
+      uses: SamKirkland/FTP-Deploy-Action@4.3.3
+      with:
+        server: ${{ secrets.ftp_server }}
+        username: ${{ secrets.ftp_username }}
+        password: ${{ secrets.ftp_password }}
