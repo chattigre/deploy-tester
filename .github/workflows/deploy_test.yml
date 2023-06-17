@@ -29,6 +29,31 @@ jobs:
         password: ${{ secrets.ftp_password }}
         protocol: ftps
         server-dir: './dev-test/'
+  sync-deploy:
+    if: github.ref_name == 'main'
+    name: Branch sync
+    runs-on: ubuntu-latest
+    steps:
+    - name: Merge dev-test
+      uses: dogoo-me/merge-branch@v1
+      with:
+        github_token: ${{github.token}}
+        from_branch: main
+        to_branch: dev-test
+    - name: Get latest code
+      uses: actions/checkout@v3
+      with:
+        ref: "main"
+        fetch-depth: 1
+    
+    - name: Sync files
+      uses: SamKirkland/FTP-Deploy-Action@4.3.3
+      with:
+        server: ${{ secrets.ftp_server }}
+        username: ${{ secrets.ftp_username }}
+        password: ${{ secrets.ftp_password }}
+        protocol: ftps
+        server-dir: './dev-test/'
   preprod-deploy:
     if: github.ref_name == 'dev-test'
     name: Preproduction deployment
@@ -48,10 +73,3 @@ jobs:
         password: ${{ secrets.ftp_password }}
         protocol: ftps
         server-dir: './dev-test/'
-
-    - name: Merge dev-test
-      uses: dogoo-me/merge-branch@v1
-      with:
-        github_token: ${{github.token}}
-        from_branch: main
-        to_branch: dev-test
