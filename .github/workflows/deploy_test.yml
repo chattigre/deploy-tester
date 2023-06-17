@@ -40,7 +40,7 @@ jobs:
         github_token: ${{github.token}}
         from_branch: main
         to_branch: dev-test
-    - name: Get latest code
+    - name: Get latest code sync
       uses: actions/checkout@v3
       with:
         ref: "main"
