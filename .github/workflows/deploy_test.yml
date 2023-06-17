@@ -48,17 +48,14 @@ jobs:
         password: ${{ secrets.ftp_password }}
         protocol: ftps
         server-dir: './dev-test/'
-  nightly-merge:
+  cascading-merge:
+    name: Cascading Merge
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout
-      uses: actions/checkout@v2
-
-    - name: Up Merge
-      uses: bambamboole/gha-upmerge@main
-      with:
-        stable_branch: 'main'
-        development_branch: 'dev-test'
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Cascading Merge
+        uses: mheap/cascading-merge-action@v1
+        with:
+          # Changes to `branch-1` will automatically be merged into `branch-2` and `branch-3`
+          branches: |
+            main
+            dev-test
