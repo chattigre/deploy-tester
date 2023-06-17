@@ -49,18 +49,16 @@ jobs:
         protocol: ftps
         server-dir: './dev-test/'
   nightly-merge:
-
     runs-on: ubuntu-latest
 
     steps:
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v2
 
-    - name: Nightly Merge
-      uses: robotology/gh-action-nightly-merge@v1.4.0
+    - name: Up Merge
+      uses: bambamboole/gha-upmerge@master
       with:
         stable_branch: 'main'
         development_branch: 'dev-test'
-        allow_ff: false
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
