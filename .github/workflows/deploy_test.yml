@@ -34,12 +34,17 @@ jobs:
     name: Branch sync
     runs-on: ubuntu-latest
     steps:
-    - name: Merge dev-test
-      uses: dogoo-me/merge-branch@v1
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Nightly Merge
+      uses: robotology/gh-action-nightly-merge@v1.4.0
       with:
-        github_token: ${{github.token}}
-        from_branch: main
-        to_branch: dev-test
+        stable_branch: 'main'
+        development_branch: 'dev-test'
+        allow_ff: true
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Get latest code sync
       uses: actions/checkout@v3
       with:
