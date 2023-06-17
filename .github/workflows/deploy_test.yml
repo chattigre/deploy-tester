@@ -48,13 +48,10 @@ jobs:
         password: ${{ secrets.ftp_password }}
         protocol: ftps
         server-dir: './dev-test/'
-  merge-branch:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: everlytic/branch-merge@1.1.2
-        with:
-          github_token: ${{ github.token }}
-          source_ref: ${{ github.ref }}
-          target_branch: 'dev-test'
-          commit_message_template: '[Automated] Merged {source_ref} into target {target_branch}'
+
+    - name: Merge dev-test
+      uses: dogoo-me/merge-branch@v1
+      with:
+        github_token: ${{github.token}}
+        from_branch: main
+        to_branch: dev-test
