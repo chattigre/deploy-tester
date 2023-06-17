@@ -43,6 +43,7 @@ jobs:
         stable_branch: 'main'
         development_branch: 'dev-test'
         allow_ff: true
+        ff_only: false
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Get latest code sync
